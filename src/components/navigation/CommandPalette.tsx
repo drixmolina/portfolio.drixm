@@ -1,5 +1,0 @@
-import { useEffect, useRef } from "react";
-import { Search, X } from "lucide-react";
-import { navigation } from "../../data/portfolioData";
-interface Props { open:boolean; onClose:()=>void }
-export function CommandPalette({open,onClose}:Props){const ref=useRef<HTMLDivElement>(null);useEffect(()=>{if(!open)return;ref.current?.querySelector<HTMLElement>("a")?.focus();const key=(e:KeyboardEvent)=>e.key==="Escape"&&onClose();addEventListener("keydown",key);return()=>removeEventListener("keydown",key)},[open,onClose]);if(!open)return null;return <div className="command-backdrop" onMouseDown={e=>e.target===e.currentTarget&&onClose()}><div ref={ref} className="command glass" role="dialog" aria-modal="true" aria-label="Quick navigation"><header><Search/><span>Go to section</span><button className="icon-button" onClick={onClose} aria-label="Close command palette"><X/></button></header>{navigation.map(n=><a key={n.id} href={`#${n.id}`} onClick={onClose}>{n.label}<span>↵</span></a>)}</div></div>}
