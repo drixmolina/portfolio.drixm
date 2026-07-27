@@ -1,5 +1,16 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Resend } from 'resend';
+
+type VercelRequest = {
+  method?: string;
+  body?: Record<string, unknown>;
+};
+
+type VercelResponse = {
+  setHeader: (name: string, value: string) => void;
+  status: (code: number) => {
+    json: (body: Record<string, string>) => unknown;
+  };
+};
 
 declare const process: {
   env: Record<string, string | undefined>;
