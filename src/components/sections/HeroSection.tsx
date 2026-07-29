@@ -32,6 +32,7 @@ export function HeroSection() {
 
         <figure className="hero-portrait">
           <img
+            className="hero-portrait-image hero-portrait-dark"
             src={profile.portrait}
             width="500"
             height="500"
@@ -39,6 +40,17 @@ export function HeroSection() {
             decoding="async"
             loading="eager"
             fetchPriority="high"
+            sizes="(max-width: 600px) 320px, (max-width: 900px) 400px, 500px"
+          />
+          <img
+            className="hero-portrait-image hero-portrait-light"
+            src={profile.lightPortrait}
+            width="1254"
+            height="1254"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            loading="eager"
             sizes="(max-width: 600px) 320px, (max-width: 900px) 400px, 500px"
           />
         </figure>

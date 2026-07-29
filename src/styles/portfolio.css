@@ -56,6 +56,7 @@ img {
 .app {
   min-height: 100vh;
   background: var(--color-background);
+  transition: background-color 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .site-container {
@@ -273,6 +274,12 @@ img {
 .theme-icon {
   display: grid;
   place-items: center;
+  transform: rotate(0deg) scale(1);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="light"] .theme-icon {
+  transform: rotate(180deg) scale(1);
 }
 
 .nav-contact {
@@ -557,6 +564,7 @@ img {
   position: relative;
   isolation: isolate;
   width: min(42vw, 500px);
+  aspect-ratio: 1;
   margin: 0;
   align-self: center;
   justify-self: end;
@@ -577,6 +585,8 @@ img {
     );
   filter: blur(24px);
   content: "";
+  opacity: 1;
+  transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hero-portrait::after {
@@ -595,11 +605,14 @@ img {
   );
   filter: blur(16px);
   content: "";
+  opacity: 1;
   transform: perspective(400px) rotateX(68deg);
+  transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.hero-portrait img {
-  position: relative;
+.hero-portrait-image {
+  position: absolute;
+  inset: 0;
   z-index: 1;
   display: block;
   width: 100%;
@@ -609,8 +622,13 @@ img {
   filter:
     drop-shadow(0 26px 24px rgba(0, 0, 0, 0.42))
     drop-shadow(-5px 0 10px rgba(218, 185, 112, 0.16));
+  opacity: 1;
   transform: perspective(900px) rotateY(-1.5deg) translateY(4%);
   transform-origin: center bottom;
+  transition:
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
   -webkit-mask-image: linear-gradient(
     to bottom,
     #000 0%,
@@ -623,6 +641,32 @@ img {
     #000 82%,
     transparent 100%
   );
+}
+
+.hero-portrait-light {
+  filter:
+    drop-shadow(0 24px 22px rgba(35, 27, 17, 0.22))
+    drop-shadow(-4px 0 9px rgba(183, 28, 28, 0.12));
+  opacity: 0;
+  transform: perspective(900px) rotateY(-1.5deg) translateY(4%) scale(0.985);
+}
+
+[data-theme="light"] .hero-portrait-dark {
+  opacity: 0;
+  transform: perspective(900px) rotateY(-1.5deg) translateY(4%) scale(1.015);
+}
+
+[data-theme="light"] .hero-portrait-light {
+  opacity: 1;
+  transform: perspective(900px) rotateY(-1.5deg) translateY(4%) scale(1);
+}
+
+[data-theme="light"] .hero-portrait::before {
+  opacity: 0.58;
+}
+
+[data-theme="light"] .hero-portrait::after {
+  opacity: 0.44;
 }
 
 .hero-scroll-cue {
@@ -2362,11 +2406,26 @@ img {
     width: min(100%, 320px);
   }
 
-  .hero-portrait img {
+  .hero-portrait-image {
     filter:
       drop-shadow(0 20px 18px rgba(0, 0, 0, 0.38))
       drop-shadow(-4px 0 8px rgba(218, 185, 112, 0.14));
     transform: translateY(3%);
+  }
+
+  .hero-portrait-light {
+    filter:
+      drop-shadow(0 18px 16px rgba(35, 27, 17, 0.2))
+      drop-shadow(-3px 0 7px rgba(183, 28, 28, 0.1));
+    transform: translateY(3%) scale(0.985);
+  }
+
+  [data-theme="light"] .hero-portrait-dark {
+    transform: translateY(3%) scale(1.015);
+  }
+
+  [data-theme="light"] .hero-portrait-light {
+    transform: translateY(3%) scale(1);
   }
 
   .section-header {
