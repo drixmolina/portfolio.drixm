@@ -5,7 +5,7 @@ import {
   profile,
   projects,
   skillGroups,
-} from "../src/data/portfolioData";
+} from "../src/data/portfolioData.js";
 
 interface VercelRequest {
   method?: string;
