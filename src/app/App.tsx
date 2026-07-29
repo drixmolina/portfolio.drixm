@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router";
+import { RecruiterAssistant } from "../components/ai/RecruiterAssistant";
 import { Navbar } from "../components/navigation/Navbar";
 import type { Theme } from "../components/navigation/ThemeToggle";
 import { HomePage } from "../components/pages/HomePage";
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
+      <RecruiterAssistant />
     </div>
   );
 }
