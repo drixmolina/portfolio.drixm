@@ -1,28 +1,69 @@
-# Drix Molina — Personal Portfolio
+# Drix Molina - Full-Stack Developer Portfolio
 
-Professional portfolio for Drix Molina, a Full Stack Developer, IT Support Specialist, and AI Automation Developer.
+Recruiter-focused portfolio for Drix Molina, a BS Information Technology graduate and Web Developer building practical web and mobile systems.
 
-**Live website:** [webfolio-dm.vercel.app](https://webfolio-dm.vercel.app/)
+**Production:** [webfolio-dm.vercel.app](https://webfolio-dm.vercel.app/)
+**Planned custom domain:** `drixmolina.com`
 
-## Overview
+![Drix Molina portfolio social preview](public/og-image.png)
 
-This responsive single-page portfolio presents selected projects, experience, skills, the FacilitEASE capstone case study, education, certifications, resume, and a secure contact form while retaining a black, red, and off-white developer aesthetic.
+## What this portfolio demonstrates
 
-## Features
+- Responsive React and TypeScript interface development
+- PHP/MySQL-backed academic workflow design
+- Accessible navigation, forms, dialogs, and reduced-motion behavior
+- Project testing, documentation, and evidence-based case studies
+- Vercel deployment with a serverless Resend contact endpoint
 
-- Recruiter-focused project case studies and screenshot galleries
-- Responsive navigation, command palette, resume preview, and PDF downloads
-- Adaptive neural-network canvas and session-only loading screen
-- Accessible keyboard navigation, focus-managed modals, reduced-motion support, and semantic content
-- Vercel Function contact endpoint with server-side Resend delivery, validation, and a honeypot
-- Private reviews and suggestions form with optional ratings and server-side Resend delivery
-- Open Graph, Twitter Card, canonical metadata, favicon, and Person JSON-LD
+## Featured case studies
 
-## Technology stack
+### Highly Succeed Employee & Inventory Management System
 
-React 18, TypeScript, Vite 6, Tailwind CSS 4, Motion, Lucide React, Vercel Functions, and Resend.
+A responsive React system prototype spanning employee records, attendance, leave, onboarding, inventory, reporting, and role-aware administration.
 
-## Local setup
+- [Read the case study](https://webfolio-dm.vercel.app/work/highly-succeed)
+- [Review the public source](https://github.com/drixmolina/Highlysucceed)
+
+### FacilitEASE
+
+A web and mobile property management capstone connecting reservations, job orders, inventory, maintenance, personnel dispatch, notifications, and calendars.
+
+- [Read the case study](https://webfolio-dm.vercel.app/work/facilitease)
+- Verified scope: seven modules, four role groups, alpha and beta testing, and two project awards
+
+## Technology
+
+- React 18 and TypeScript
+- React Router
+- Vite 6 and Tailwind CSS 4
+- Motion and Lucide React
+- Vercel Functions and Resend
+- Vercel Web Analytics
+
+## Accessibility
+
+The portfolio includes:
+
+- Semantic landmarks and one clear page heading per route
+- Skip navigation
+- Keyboard-accessible mobile navigation and dialogs
+- Focus trapping, Escape-key handling, and focus restoration
+- Visible focus states and accessible form errors
+- Descriptive alternative text and explicit image dimensions
+- Reduced-motion support
+- Responsive layouts down to 360px
+
+## Performance and privacy
+
+- AVIF and WebP variants for the hero portrait and primary project media
+- Lazy-loaded below-the-fold screenshots
+- Sanitized company screenshots with demonstration identities and credentials obscured
+- A text-preserving optimized research PDF
+- A 1200x630 PNG social preview
+- Sitemap, robots directives, canonical metadata, and structured data
+- Anonymous, cookie-free Vercel page analytics
+
+## Local development
 
 Requires Node.js 24.
 
@@ -31,57 +72,33 @@ npm install
 npm run dev
 ```
 
-The Vite development server serves the frontend. To exercise the Vercel Function locally, use `vercel dev` after linking the project and configuring the variables below.
-
-## Environment variables
-
-Copy `.env.example` to `.env.local` for local Vercel development. Never commit real keys.
+Create `.env.local` for local contact-form testing:
 
 ```env
 RESEND_API_KEY=
 CONTACT_EMAIL=drixmolina31@gmail.com
 ```
 
-## Resend setup
+The public site remains usable without those variables; the contact endpoint reports an honest service-unavailable response and presents the direct email address.
 
-1. Create a Resend account and API key, or add Resend from the Vercel Marketplace.
-2. Add `RESEND_API_KEY` and `CONTACT_EMAIL` to the Vercel project for Production, Preview, and Development as needed.
-3. The endpoint initially sends from `Portfolio Contact <onboarding@resend.dev>`. Resend's testing sender can only send under its account restrictions. For unrestricted production delivery, verify a sending domain in Resend and replace the `from` value in `api/contact.ts` with an address on that domain.
-4. Redeploy after environment-variable changes, then submit the form and confirm receipt.
-
-## Build
+## Verification
 
 ```bash
 npm run build
 ```
 
-The production output is generated in `dist/`.
+Verify:
 
-## Deploy to Vercel
+- `/`
+- `/work/highly-succeed`
+- `/work/facilitease`
+- `/api/contact`
+- `/resume/Drix_Molina_Resume.pdf`
+- `/sitemap.xml`
+- `/robots.txt`
 
-1. Import [github.com/drixmolina/WEBPOLIO](https://github.com/drixmolina/WEBPOLIO) into Vercel.
-2. Keep the Vite framework preset and default `npm run build` command.
-3. Configure the Resend environment variables described above.
-4. Deploy and verify `/api/contact`, project links, PDFs, and social metadata.
+## Deployment
 
-## Project structure
+The project is linked to Vercel as `webpolio`. Git pushes create deployments through the connected Vercel project. The `vercel.json` rewrite keeps direct case-study URLs working without intercepting `/api/contact`.
 
-```text
-api/contact.ts                 Vercel contact function
-public/                        Images, project galleries, PDFs, and SEO assets
-src/app/App.tsx                Page composition
-src/components/layout/         Background effects
-src/components/navigation/     Navbar and command palette
-src/components/sections/       Portfolio sections and contact form
-src/components/ui/             Reusable headers, social links, and modal shell
-src/data/portfolioData.ts      Typed portfolio content
-src/styles/portfolio.css       Portfolio layout, responsive, and motion rules
-```
-
-## Accessibility improvements
-
-The portfolio includes a skip link, strong focus-visible styles, semantic headings and landmarks, minimum touch targets, active navigation state, accessible form errors, stable screen-reader role text, modal focus trapping/restoration, Escape-key closing, and reduced-motion behavior.
-
-## Performance optimizations
-
-The neural background adapts its particle count by viewport, stops on hidden tabs, and is disabled on mobile. Cursor effects avoid touch-only devices and use animation frames. Below-the-fold images and PDF previews are lazy-loaded with explicit aspect ratios and asynchronous decoding, while small screens use lighter blur effects.
+Before activating `drixmolina.com`, purchase and attach the domain, set the preferred `www` redirect, then replace the current production URL in metadata, structured data, the sitemap, the résumé, and public profiles.

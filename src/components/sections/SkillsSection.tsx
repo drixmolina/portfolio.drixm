@@ -14,8 +14,8 @@ export function SkillsSection() {
       <div className="site-container">
         <SectionHeader
           eyebrow="Skills & tools"
-          title="Capabilities demonstrated through real projects."
-          description="A focused view of the technologies and technical areas represented in my existing work."
+          title="A focused, evidence-backed toolkit."
+          description="Technologies represented in my current work, public source, capstone system, testing, and project documentation."
           headingId="skills-heading"
         />
 

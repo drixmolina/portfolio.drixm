@@ -12,8 +12,8 @@ export function ExperienceSection() {
       <div className="site-container">
         <SectionHeader
           eyebrow="Experience"
-          title="Practical work, collaborative learning."
-          description="Experience applying development skills in an internship environment and a student developer organization."
+          title="Building practical systems in a working team."
+          description="Current web development experience supported by technical collaboration and continuous learning."
           headingId="experience-heading"
         />
 

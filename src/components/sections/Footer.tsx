@@ -17,7 +17,7 @@ export function Footer() {
           <a href={profile.linkedinUrl} target="_blank" rel="noreferrer">
             LinkedIn
           </a>
-          <a href="#hero">
+          <a href="/#hero">
             Back to top <ArrowUp aria-hidden="true" />
           </a>
         </nav>

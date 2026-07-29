@@ -1,18 +1,16 @@
-import { useState } from "react";
-import { ArrowUpRight, Github, Images } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
+import { Link } from "react-router";
 import { projects, type PortfolioProject } from "../../data/portfolioData";
-import { ModalShell } from "../ui/ModalShell";
 import { Reveal } from "../ui/Reveal";
+import { ResponsiveImage } from "../ui/ResponsiveImage";
 import { SectionHeader } from "../ui/SectionHeader";
 
 function ProjectActions({ project }: { project: PortfolioProject }) {
   return (
     <div className="project-actions" aria-label={`${project.title} links`}>
-      {project.caseStudyUrl && (
-        <a href={project.caseStudyUrl}>
-          View Case Study <ArrowUpRight aria-hidden="true" />
-        </a>
-      )}
+      <Link to={`/work/${project.slug}`}>
+        View Case Study <ArrowUpRight aria-hidden="true" />
+      </Link>
       {project.liveUrl && (
         <a href={project.liveUrl} target="_blank" rel="noreferrer">
           Live Website <ArrowUpRight aria-hidden="true" />
@@ -28,9 +26,6 @@ function ProjectActions({ project }: { project: PortfolioProject }) {
 }
 
 export function SelectedWorkSection() {
-  const [selectedProject, setSelectedProject] =
-    useState<PortfolioProject | null>(null);
-
   return (
     <section
       id="projects"
@@ -52,24 +47,19 @@ export function SelectedWorkSection() {
                 className={`project-feature ${index % 2 ? "project-feature-reverse" : ""}`}
               >
                 <div className="project-media">
-                  <button
-                    type="button"
-                    className="project-image-button"
-                    onClick={() => setSelectedProject(project)}
-                    aria-label={`View ${project.title} screenshots`}
+                  <Link
+                    className="project-image-link"
+                    to={`/work/${project.slug}`}
+                    aria-label={`Read case study: ${project.title}`}
                   >
-                    <img
-                      src={project.image.url}
-                      width={project.image.width}
-                      height={project.image.height}
-                      alt={project.image.alt}
-                      loading="lazy"
-                      decoding="async"
+                    <ResponsiveImage
+                      image={project.image}
+                      sizes="(max-width: 900px) 100vw, 62vw"
                     />
                     <span>
-                      <Images aria-hidden="true" /> View screenshots
+                      Read case study <ArrowUpRight aria-hidden="true" />
                     </span>
-                  </button>
+                  </Link>
                 </div>
 
                 <div className="project-copy">
@@ -86,21 +76,9 @@ export function SelectedWorkSection() {
                       <dd>{project.role}</dd>
                     </div>
                     <div>
-                      <dt>Contribution</dt>
-                      <dd>
-                        <ul>
-                          {project.contributions.map((contribution) => (
-                            <li key={contribution}>{contribution}</li>
-                          ))}
-                        </ul>
-                      </dd>
+                      <dt>Evidence</dt>
+                      <dd>{project.evidence.slice(0, 2).map((item) => `${item.value} ${item.label.toLowerCase()}`).join(" · ")}</dd>
                     </div>
-                    {project.result && (
-                      <div>
-                        <dt>Result</dt>
-                        <dd>{project.result}</dd>
-                      </div>
-                    )}
                   </dl>
 
                   <p className="technology-line">
@@ -113,31 +91,6 @@ export function SelectedWorkSection() {
           ))}
         </div>
       </div>
-
-      <ModalShell
-        open={Boolean(selectedProject)}
-        onClose={() => setSelectedProject(null)}
-        title={`${selectedProject?.title ?? "Project"} screenshots`}
-      >
-        <div className="gallery">
-          {selectedProject?.screenshots.map((image) => (
-            <figure
-              key={image.url}
-              className={image.height > image.width ? "gallery-portrait" : undefined}
-            >
-              <img
-                src={image.url}
-                width={image.width}
-                height={image.height}
-                loading="lazy"
-                decoding="async"
-                alt={image.alt}
-              />
-              <figcaption>{image.caption}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </ModalShell>
     </section>
   );
 }

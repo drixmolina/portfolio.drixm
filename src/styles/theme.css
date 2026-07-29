@@ -7,9 +7,9 @@
   --color-surface-hover: #151515;
   --color-text-primary: #f5f2ed;
   --color-text-secondary: #aaa7a2;
-  --color-text-muted: #74716d;
-  --color-accent: #d72323;
-  --color-accent-hover: #ef3030;
+  --color-text-muted: #86827d;
+  --color-accent: #e54848;
+  --color-accent-hover: #f35b5b;
   --color-border: rgba(255, 255, 255, 0.1);
   --color-border-strong: rgba(255, 255, 255, 0.18);
   --color-success: #56a675;
@@ -44,7 +44,7 @@
   --color-surface-hover: #ffffff;
   --color-text-primary: #171716;
   --color-text-secondary: #575550;
-  --color-text-muted: #77736d;
+  --color-text-muted: #67645f;
   --color-accent: #b71c1c;
   --color-accent-hover: #961616;
   --color-border: rgba(23, 23, 22, 0.13);
@@ -95,5 +95,5 @@
   --text-xl: 1.25rem;
   --text-2xl: clamp(1.5rem, 2.2vw, 2rem);
   --text-section: clamp(2.35rem, 5vw, 4.75rem);
-  --text-hero: clamp(3.25rem, 7.2vw, 6.8rem);
+  --text-hero: clamp(3.15rem, 5.85vw, 5.4rem);
 }

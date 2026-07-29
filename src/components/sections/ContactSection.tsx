@@ -106,7 +106,7 @@ export function ContactSection() {
         <SectionHeader
           eyebrow="Contact"
           title="Let’s build something useful."
-          description="If you’re hiring for a junior full-stack role or want to discuss a practical web or mobile project, I’d be glad to hear from you."
+          description="If you’re hiring for a junior full-stack role in the Philippines or on a remote team, I’d be glad to discuss how I can contribute."
           headingId="contact-heading"
         />
 
@@ -153,6 +153,7 @@ export function ContactSection() {
                   autoComplete="name"
                   placeholder="Your name"
                   required
+                  maxLength={100}
                   value={fields.name}
                   onChange={(event) => update("name", event.target.value)}
                   aria-invalid={Boolean(errors.name)}
@@ -174,6 +175,7 @@ export function ContactSection() {
                   autoComplete="email"
                   placeholder="you@example.com"
                   required
+                  maxLength={254}
                   value={fields.email}
                   onChange={(event) => update("email", event.target.value)}
                   aria-invalid={Boolean(errors.email)}
@@ -194,6 +196,7 @@ export function ContactSection() {
                   rows={6}
                   placeholder="Tell me about the opportunity or project."
                   required
+                  maxLength={5000}
                   value={fields.message}
                   onChange={(event) => update("message", event.target.value)}
                   aria-invalid={Boolean(errors.message)}
@@ -219,6 +222,7 @@ export function ContactSection() {
 
               <p
                 className={`form-status form-status-${status}`}
+                role={status === "error" ? "alert" : "status"}
                 aria-live="polite"
               >
                 {statusMessage}

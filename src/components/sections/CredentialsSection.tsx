@@ -18,7 +18,7 @@ export function CredentialsSection() {
         <SectionHeader
           eyebrow="Credentials"
           title="Education backed by technical certification."
-          description="Verified certification files and an ATS-friendly résumé are available for review."
+          description={`${profile.education.degree}, ${profile.education.school} (${profile.education.graduationYear}), supported by verified technical certifications.`}
           headingId="credentials-heading"
         />
 
@@ -49,8 +49,8 @@ export function CredentialsSection() {
             <p className="eyebrow">Résumé</p>
             <h3>{profile.professionalName} · {profile.role}</h3>
             <p>
-              Review my education, project work, technical skills, and experience
-              in one concise document.
+              Review my current role, selected projects, demonstrated technical
+              skills, and education in one concise document.
             </p>
           </div>
           <div className="resume-actions">

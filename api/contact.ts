@@ -24,11 +24,16 @@ export default async function handler(request: VercelRequest, response: VercelRe
     return response.status(405).json({ error: 'Method not allowed.' });
   }
 
-  const { name, email, subject, message } = request.body ?? {};
+  const { name, email, subject, message, website } = request.body ?? {};
   const normalizedName = typeof name === 'string' ? name.trim() : '';
   const normalizedEmail = typeof email === 'string' ? email.trim() : '';
   const normalizedSubject = typeof subject === 'string' ? subject.trim() : '';
   const normalizedMessage = typeof message === 'string' ? message.trim() : '';
+  const normalizedWebsite = typeof website === 'string' ? website.trim() : '';
+
+  if (normalizedWebsite) {
+    return response.status(200).json({ message: 'Message sent successfully.' });
+  }
 
   if (!normalizedName || !normalizedEmail || !normalizedMessage) {
     return response.status(400).json({

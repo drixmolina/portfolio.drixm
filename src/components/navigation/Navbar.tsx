@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useLocation } from "react-router";
 import { navigation } from "../../data/portfolioData";
 import { ThemeToggle, type Theme } from "./ThemeToggle";
 
@@ -9,6 +10,7 @@ interface NavbarProps {
 }
 
 export function Navbar({ theme, onThemeToggle }: NavbarProps) {
+  const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("hero");
   const [visible, setVisible] = useState(true);
@@ -16,6 +18,8 @@ export function Navbar({ theme, onThemeToggle }: NavbarProps) {
   const headerRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const isHome = pathname === "/";
+  const sectionHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 
   const closeMenu = useCallback((restoreFocus = true) => {
     setOpen(false);
@@ -49,16 +53,18 @@ export function Navbar({ theme, onThemeToggle }: NavbarProps) {
       { rootMargin: "-28% 0px -62%" },
     );
 
-    navigation.forEach(({ id }) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+    if (isHome) {
+      navigation.forEach(({ id }) => {
+        const element = document.getElementById(id);
+        if (element) observer.observe(element);
+      });
+    }
 
     return () => {
       window.removeEventListener("scroll", onScroll);
       observer.disconnect();
     };
-  }, [open]);
+  }, [isHome, open]);
 
   useEffect(() => {
     if (!open) return;
@@ -109,7 +115,7 @@ export function Navbar({ theme, onThemeToggle }: NavbarProps) {
       onFocusCapture={() => setVisible(true)}
     >
       <nav aria-label="Main navigation" className="nav-container">
-        <a href="#hero" className="brand" aria-label="Drix Molina portfolio home">
+        <a href="/" className="brand" aria-label="Drix Molina portfolio home">
           Drix Molina<span aria-hidden="true">.</span>
         </a>
 
@@ -117,8 +123,8 @@ export function Navbar({ theme, onThemeToggle }: NavbarProps) {
           {desktopLinks.map((item) => (
             <a
               key={item.id}
-              href={`#${item.id}`}
-              aria-current={active === item.id ? "location" : undefined}
+              href={sectionHref(item.id)}
+              aria-current={isHome && active === item.id ? "location" : undefined}
             >
               {item.label}
             </a>
@@ -129,8 +135,8 @@ export function Navbar({ theme, onThemeToggle }: NavbarProps) {
           <ThemeToggle theme={theme} onToggle={onThemeToggle} />
           <a
             className="nav-contact"
-            href="#contact"
-            aria-current={active === "contact" ? "location" : undefined}
+            href={sectionHref("contact")}
+            aria-current={isHome && active === "contact" ? "location" : undefined}
           >
             Contact
           </a>
@@ -159,15 +165,19 @@ export function Navbar({ theme, onThemeToggle }: NavbarProps) {
             ref={panelRef}
             id="mobile-navigation"
             className="mobile-nav-panel"
-            aria-label="Mobile navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-navigation-label"
           >
-            <p className="mobile-nav-label">Navigate</p>
+            <p id="mobile-navigation-label" className="mobile-nav-label">
+              Navigate
+            </p>
             {navigation.map((item) => (
               <a
                 key={item.id}
-                href={`#${item.id}`}
+                href={sectionHref(item.id)}
                 onClick={() => closeMenu()}
-                aria-current={active === item.id ? "location" : undefined}
+                aria-current={isHome && active === item.id ? "location" : undefined}
               >
                 <span>{item.label}</span>
                 <span aria-hidden="true">↗</span>

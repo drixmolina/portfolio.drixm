@@ -1,8 +1,6 @@
 export { HeroSection } from "./HeroSection";
 export { SelectedWorkSection } from "./SelectedWorkSection";
-export { FaciliteaseCaseStudy } from "./FaciliteaseCaseStudy";
 export { ExperienceSection } from "./ExperienceSection";
-export { AboutSection } from "./AboutSection";
 export { SkillsSection } from "./SkillsSection";
 export { CredentialsSection } from "./CredentialsSection";
 export { ContactSection } from "./ContactSection";
