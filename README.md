@@ -33,10 +33,10 @@ A web and mobile property management capstone connecting reservations, job order
 
 ## Technology
 
-- React 18 and TypeScript
-- React Router
+- React 19 and TypeScript
+- React Router 8
 - Vite 6 and Tailwind CSS 4
-- Motion and Lucide React
+- Lucide React
 - Vercel Functions and Resend
 - Vercel Web Analytics
 
@@ -65,7 +65,7 @@ The portfolio includes:
 
 ## Local development
 
-Requires Node.js 24.
+Requires Node.js 22.22 or newer.
 
 ```bash
 npm install
