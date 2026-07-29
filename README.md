@@ -65,7 +65,7 @@ The portfolio includes:
 
 ## Local development
 
-Requires Node.js 22.22 or newer.
+Requires Node.js 24.
 
 ```bash
 npm install
