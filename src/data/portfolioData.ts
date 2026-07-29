@@ -366,6 +366,7 @@ export const projects: PortfolioProject[] = [
       "A complete e-commerce prototype that pairs an editorial brand experience with functional customer and admin workflows. Live payment processing and production cloud storage remain future hardening work.",
     image: deadkidsImages[0],
     screenshots: deadkidsImages,
+    liveUrl: "https://ddkds-clo-store.vercel.app/",
     githubUrl: "https://github.com/drixmolina/deadkids",
     seo: {
       title: "DEADKIDS E-Commerce Website Case Study | Drix Molina",

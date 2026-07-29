@@ -52,9 +52,21 @@ export function ProjectCaseStudyPage() {
             <p className="project-page-summary">{project.shortDescription}</p>
 
             <div className="project-page-actions">
-              {project.githubUrl ? (
+              {project.liveUrl ? (
                 <a
                   className="button button-primary"
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <ArrowUpRight aria-hidden="true" /> Visit live website
+                </a>
+              ) : null}
+              {project.githubUrl ? (
+                <a
+                  className={`button ${
+                    project.liveUrl ? "button-secondary" : "button-primary"
+                  }`}
                   href={project.githubUrl}
                   target="_blank"
                   rel="noreferrer"
