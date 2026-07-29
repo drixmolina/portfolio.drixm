@@ -7,10 +7,6 @@ export interface PortfolioProfile {
   location: string;
   availability: string;
   portrait: string;
-  portraitSources: {
-    avif: string;
-    webp: string;
-  };
   resumeUrl: string;
   websiteUrl: string;
   plannedDomain: string;
@@ -105,12 +101,6 @@ export const profile: PortfolioProfile = {
   location: "Caloocan, Metro Manila, Philippines",
   availability: "Open to junior full-stack roles in the Philippines and remote teams",
   portrait: "/profile/drix-portrait-new.png",
-  portraitSources: {
-    avif:
-      "/profile/drix-portrait-640.avif 640w, /profile/drix-portrait-960.avif 960w",
-    webp:
-      "/profile/drix-portrait-640.webp 640w, /profile/drix-portrait-960.webp 960w",
-  },
   resumeUrl: "/resume/Drix_Molina_Resume.pdf",
   websiteUrl: "https://webfolio-dm.vercel.app/",
   plannedDomain: "drixmolina.com",

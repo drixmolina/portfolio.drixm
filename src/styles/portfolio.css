@@ -555,17 +555,47 @@ img {
 
 .hero-portrait {
   position: relative;
-  width: min(100%, 420px);
+  isolation: isolate;
+  width: min(42vw, 500px);
   margin: 0;
+  align-self: center;
   justify-self: end;
+  transform-style: preserve-3d;
 }
 
 .hero-portrait::before {
   position: absolute;
-  inset: 18px -18px -18px 18px;
-  z-index: 0;
-  border: 1px solid var(--color-border);
+  inset: 10% -4% 4%;
+  z-index: -2;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(218, 185, 112, 0.24) 0%,
+      rgba(218, 185, 112, 0.1) 38%,
+      transparent 70%
+    );
+  filter: blur(24px);
   content: "";
+}
+
+.hero-portrait::after {
+  position: absolute;
+  right: 8%;
+  bottom: 0;
+  left: 12%;
+  z-index: -1;
+  height: 15%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(0, 0, 0, 0.52) 0%,
+    rgba(0, 0, 0, 0.18) 42%,
+    transparent 72%
+  );
+  filter: blur(16px);
+  content: "";
+  transform: perspective(400px) rotateX(68deg);
 }
 
 .hero-portrait img {
@@ -574,26 +604,25 @@ img {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 570px;
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-medium);
-  background: var(--color-surface);
   object-fit: contain;
   object-position: center bottom;
-}
-
-.hero-portrait picture {
-  display: block;
-}
-
-.portrait-detail {
-  position: absolute;
-  z-index: 2;
-  top: -9px;
-  right: -9px;
-  width: 42px;
-  height: 3px;
-  background: var(--color-accent);
+  filter:
+    drop-shadow(0 26px 24px rgba(0, 0, 0, 0.42))
+    drop-shadow(-5px 0 10px rgba(218, 185, 112, 0.16));
+  transform: perspective(900px) rotateY(-1.5deg) translateY(4%);
+  transform-origin: center bottom;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 82%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 82%,
+    transparent 100%
+  );
 }
 
 .hero-scroll-cue {
@@ -2152,11 +2181,7 @@ img {
 
   .hero-portrait {
     width: min(100%, 400px);
-    justify-self: start;
-  }
-
-  .hero-portrait img {
-    max-height: 560px;
+    justify-self: center;
   }
 
   .hero-scroll-cue {
@@ -2334,15 +2359,14 @@ img {
   }
 
   .hero-portrait {
-    width: min(100%, 340px);
-  }
-
-  .hero-portrait::before {
-    inset: 12px -12px -12px 12px;
+    width: min(100%, 320px);
   }
 
   .hero-portrait img {
-    max-height: 500px;
+    filter:
+      drop-shadow(0 20px 18px rgba(0, 0, 0, 0.38))
+      drop-shadow(-4px 0 8px rgba(218, 185, 112, 0.14));
+    transform: translateY(3%);
   }
 
   .section-header {

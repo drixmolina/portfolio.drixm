@@ -31,28 +31,16 @@ export function HeroSection() {
         </div>
 
         <figure className="hero-portrait">
-          <span className="portrait-detail" aria-hidden="true" />
-          <picture>
-            <source
-              srcSet={profile.portraitSources.avif}
-              sizes="(max-width: 900px) 340px, 420px"
-              type="image/avif"
-            />
-            <source
-              srcSet={profile.portraitSources.webp}
-              sizes="(max-width: 900px) 340px, 420px"
-              type="image/webp"
-            />
-            <img
-              src={profile.portrait}
-              width="1024"
-              height="1536"
-              alt="Portrait of Drix Paulo Molina"
-              decoding="async"
-              loading="eager"
-              sizes="(max-width: 900px) 340px, 420px"
-            />
-          </picture>
+          <img
+            src={profile.portrait}
+            width="500"
+            height="500"
+            alt="Portrait of Drix Paulo Molina"
+            decoding="async"
+            loading="eager"
+            fetchPriority="high"
+            sizes="(max-width: 600px) 320px, (max-width: 900px) 400px, 500px"
+          />
         </figure>
       </div>
       <a className="hero-scroll-cue" href="#projects">
