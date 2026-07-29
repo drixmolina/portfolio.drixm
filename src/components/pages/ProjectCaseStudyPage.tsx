@@ -191,7 +191,9 @@ export function ProjectCaseStudyPage() {
               <p>
                 {project.id === "highly-succeed"
                   ? "The gallery focuses on real workflow states. Company demonstration identities and credentials are obscured for privacy."
-                  : "The gallery presents verified workflow states from the web and mobile applications."}
+                  : project.id === "deadkids"
+                    ? "The gallery divides the supplied full-page website capture into exact storefront sections for easier review."
+                    : "The gallery presents verified workflow states from the web and mobile applications."}
               </p>
             </div>
             <div className="project-page-gallery">

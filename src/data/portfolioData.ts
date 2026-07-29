@@ -174,6 +174,28 @@ const faciliteaseImages: ProjectImage[] = [
   height: Number(height),
 }));
 
+const deadkidsImages: ProjectImage[] = [
+  ["hero", "DDKDS storefront hero", 1240, 560],
+  ["selected-pieces", "Selected Pieces editorial product study", 1240, 1365],
+  ["shop", "Shop DDKDS collection availability section", 1240, 515],
+  ["around-the-world", "DEADKIDS Around the World campaign journal", 1240, 1390],
+  ["worn-beyond-borders", "Worn beyond borders editorial story", 1240, 1320],
+  ["brand-manifesto", "Made to move, built to remain brand manifesto", 1240, 460],
+  ["next-release", "Next collection release preview", 1240, 480],
+  ["reviews", "Customer reviews and moderated review form", 1240, 1190],
+  ["contact", "Contact form and storefront footer", 1240, 990],
+].map(([file, caption, width, height]) => ({
+  url: `/projects/deadkids/${file}.webp`,
+  sources: {
+    avif: `/projects/deadkids/${file}.avif`,
+    webp: `/projects/deadkids/${file}.webp`,
+  },
+  alt: `${caption} from the DEADKIDS e-commerce website`,
+  caption: String(caption),
+  width: Number(width),
+  height: Number(height),
+}));
+
 export const projects: PortfolioProject[] = [
   {
     id: "highly-succeed",
@@ -294,6 +316,61 @@ export const projects: PortfolioProject[] = [
       title: "FacilitEASE Property Management Case Study | Drix Molina",
       description:
         "FacilitEASE is a validated web and mobile property management capstone connecting reservations, job orders, inventory, maintenance, and notifications.",
+    },
+  },
+  {
+    id: "deadkids",
+    slug: "deadkids",
+    title: "DEADKIDS E-Commerce Website",
+    shortDescription:
+      "An editorial streetwear storefront connecting product discovery, customer interaction, reviews, and admin-managed content in one full-stack prototype.",
+    context: "Independent e-commerce website for DDKDS CLO.",
+    role: "Full-Stack Developer",
+    challenge:
+      "The website needed to preserve a strong editorial streetwear identity while supporting practical shopping and content workflows without making either the customer experience or store administration feel generic.",
+    users: [
+      "Streetwear shoppers",
+      "Returning customers",
+      "Store administrators",
+      "Content managers",
+    ],
+    contributions: [
+      "Designed and built a responsive editorial storefront from the hero through product, campaign, review, and contact sections.",
+      "Developed product discovery, filtering, wishlist, cart, checkout, and order-tracking experiences.",
+      "Separated the customer site from a protected admin portal for products, banners, reviews, messages, media, and website content.",
+      "Connected the React interface to Express services for authentication, content, orders, reviews, and file uploads.",
+    ],
+    architecture: [
+      "React and Vite single-page customer and admin interfaces",
+      "Node.js and Express REST API",
+      "JSON file data store for the prototype",
+      "JWT-protected admin routes, bcrypt password hashing, and Multer media uploads",
+    ],
+    workflows: [
+      "Browse and filter the product collection",
+      "Review product details and manage a wishlist",
+      "Add items to cart and record checkout choices",
+      "Track order status",
+      "Explore campaign and collection stories",
+      "Submit and moderate customer reviews",
+      "Manage products, media, and website content",
+    ],
+    evidence: [
+      { value: "2", label: "Connected experiences" },
+      { value: "7", label: "Documented workflows" },
+      { value: "JWT", label: "Protected admin access" },
+      { value: "9", label: "Verified interface sections" },
+    ],
+    technologies: ["React", "Vite", "Node.js", "Express", "JWT", "JSON"],
+    result:
+      "A complete e-commerce prototype that pairs an editorial brand experience with functional customer and admin workflows. Live payment processing and production cloud storage remain future hardening work.",
+    image: deadkidsImages[0],
+    screenshots: deadkidsImages,
+    githubUrl: "https://github.com/drixmolina/deadkids",
+    seo: {
+      title: "DEADKIDS E-Commerce Website Case Study | Drix Molina",
+      description:
+        "A full-stack React and Express streetwear e-commerce case study by Drix Molina, covering editorial product discovery, customer workflows, and protected administration.",
     },
   },
 ];

@@ -31,6 +31,14 @@ A web and mobile property management capstone connecting reservations, job order
 - [Read the case study](https://webfolio-dm.vercel.app/work/facilitease)
 - Verified scope: seven modules, four role groups, alpha and beta testing, and two project awards
 
+### DEADKIDS E-Commerce Website
+
+A React and Express streetwear e-commerce prototype combining an editorial storefront with product discovery, customer workflows, reviews, and protected content administration.
+
+- [Read the case study](https://webfolio-dm.vercel.app/work/deadkids)
+- [Review the public source](https://github.com/drixmolina/deadkids)
+- Interface evidence is divided into nine exact sections from the supplied full-page website capture
+
 ## Technology
 
 - React 19 and TypeScript
@@ -92,6 +100,7 @@ Verify:
 - `/`
 - `/work/highly-succeed`
 - `/work/facilitease`
+- `/work/deadkids`
 - `/api/contact`
 - `/resume/Drix_Molina_Resume.pdf`
 - `/sitemap.xml`
