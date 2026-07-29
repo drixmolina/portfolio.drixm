@@ -1,3 +1,4 @@
+import { google } from "@ai-sdk/google";
 import { generateText, type ModelMessage } from "ai";
 import {
   credentials,
@@ -30,7 +31,7 @@ interface RateLimitEntry {
   resetAt: number;
 }
 
-const MODEL_ID = "google/gemini-3.6-flash";
+const MODEL_ID = "gemini-3.6-flash";
 const MAX_MESSAGE_LENGTH = 400;
 const RATE_LIMIT = 12;
 const RATE_WINDOW_MS = 10 * 60 * 1000;
@@ -164,11 +165,10 @@ export default async function handler(
 
   try {
     const result = await generateText({
-      model: MODEL_ID,
+      model: google(MODEL_ID),
       instructions,
       messages: [...parseHistory(body.history), { role: "user", content: message }],
       maxOutputTokens: 320,
-      temperature: 0.2,
       maxRetries: 1,
       timeout: 15_000,
     });
