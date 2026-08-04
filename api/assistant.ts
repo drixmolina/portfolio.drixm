@@ -305,8 +305,15 @@ export default async function handler(
           content: buildUserPrompt(message, jobDescription),
         },
       ],
-      maxOutputTokens: 380,
+      maxOutputTokens: 900,
       maxRetries: 1,
+      providerOptions: {
+        google: {
+          thinkingConfig: {
+            thinkingLevel: "minimal",
+          },
+        },
+      },
       timeout: 15_000,
     });
 
