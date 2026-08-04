@@ -2157,8 +2157,9 @@ img {
 
 .ai-assistant-panel {
   display: grid;
-  width: min(390px, calc(100vw - 48px));
-  max-height: min(650px, calc(100svh - 116px));
+  grid-template-rows: auto auto minmax(96px, 1fr) auto auto auto;
+  width: min(410px, calc(100vw - 48px));
+  height: min(680px, calc(100svh - 116px));
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: 16px;
@@ -2233,9 +2234,71 @@ img {
   background: var(--color-surface-hover);
 }
 
+.ai-audience-selector {
+  display: grid;
+  gap: 8px;
+  padding: 13px 20px 11px;
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+}
+
+.ai-audience-label {
+  color: var(--color-text-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ai-audience-selector > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.ai-audience-selector button {
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.ai-audience-selector button:hover:not(:disabled) {
+  border-color: var(--color-text-muted);
+  color: var(--color-text-primary);
+}
+
+.ai-audience-selector button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--color-accent) 62%, var(--color-border));
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  color: var(--color-text-primary);
+}
+
+.ai-audience-selector button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ai-audience-selector p {
+  min-height: 1.2em;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.67rem;
+  line-height: 1.4;
+}
+
 .ai-assistant-messages {
-  min-height: 150px;
-  max-height: 282px;
+  min-height: 0;
   overflow-y: auto;
   padding: 18px 20px 8px;
   scrollbar-color: var(--color-border) transparent;
@@ -2267,6 +2330,38 @@ img {
   font-size: 0.82rem;
   line-height: 1.55;
   white-space: pre-wrap;
+}
+
+.ai-message-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 7px;
+}
+
+.ai-message-actions a {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  color: var(--color-text-secondary);
+  font-size: 0.67rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.ai-message-actions a:hover {
+  border-color: var(--color-text-muted);
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
 }
 
 .ai-message-user {
@@ -2311,13 +2406,13 @@ img {
 
 .ai-assistant-suggestions {
   display: grid;
-  gap: 7px;
-  padding: 4px 20px 14px;
+  gap: 5px;
+  padding: 2px 20px 10px;
 }
 
 .ai-assistant-suggestions button {
-  min-height: 38px;
-  padding: 8px 11px;
+  min-height: 34px;
+  padding: 7px 11px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-small);
   background: transparent;
@@ -2341,34 +2436,43 @@ img {
 .ai-assistant-form {
   display: grid;
   grid-template-columns: 1fr 42px;
+  align-items: end;
   gap: 8px;
   padding: 14px 20px;
   border-top: 1px solid var(--color-border);
 }
 
-.ai-assistant-form input {
+.ai-assistant-form textarea {
   width: 100%;
   min-width: 0;
-  height: 42px;
-  padding: 0 12px;
+  min-height: 42px;
+  max-height: 112px;
+  padding: 10px 12px;
+  overflow-y: auto;
+  resize: none;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-small);
   outline: none;
   background: var(--color-background);
   color: var(--color-text-primary);
   font-size: 0.82rem;
+  line-height: 1.45;
   transition: border-color 160ms ease;
 }
 
-.ai-assistant-form input:focus {
+.ai-assistant-form.is-job-match textarea {
+  min-height: 104px;
+}
+
+.ai-assistant-form textarea:focus {
   border-color: var(--color-accent);
 }
 
-.ai-assistant-form input::placeholder {
+.ai-assistant-form textarea::placeholder {
   color: var(--color-text-muted);
 }
 
-.ai-assistant-form button {
+.ai-assistant-form > button[type="submit"] {
   display: grid;
   width: 42px;
   height: 42px;
@@ -2384,15 +2488,63 @@ img {
     transform 160ms ease;
 }
 
-.ai-assistant-form button:hover:not(:disabled) {
+.ai-assistant-form > button[type="submit"]:hover:not(:disabled) {
   transform: translateY(-1px);
 }
 
-.ai-assistant-form button:disabled,
+.ai-assistant-form > button[type="submit"]:disabled,
 .ai-assistant-suggestions button:disabled,
-.ai-assistant-form input:disabled {
+.ai-assistant-form textarea:disabled {
   cursor: not-allowed;
   opacity: 0.48;
+}
+
+.ai-composer-context {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ai-composer-context > div {
+  display: grid;
+  gap: 2px;
+}
+
+.ai-composer-context strong {
+  color: var(--color-text-primary);
+  font-size: 0.7rem;
+}
+
+.ai-composer-context span {
+  color: var(--color-text-muted);
+  font-size: 0.65rem;
+  line-height: 1.35;
+}
+
+.ai-composer-context button {
+  min-height: 28px;
+  padding: 4px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.67rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ai-composer-context button:hover {
+  color: var(--color-text-primary);
+}
+
+.ai-character-count {
+  grid-column: 1 / -1;
+  margin-top: -4px;
+  color: var(--color-text-muted);
+  font-size: 0.62rem;
+  line-height: 1;
+  text-align: right;
 }
 
 .ai-assistant-footer {
@@ -2710,8 +2862,35 @@ img {
     border-radius: 13px;
   }
 
+  .ai-assistant-header {
+    padding: 18px;
+  }
+
+  .ai-audience-selector {
+    padding-inline: 18px;
+  }
+
+  .ai-audience-selector button {
+    padding-inline: 5px;
+    font-size: 0.67rem;
+  }
+
   .ai-assistant-messages {
-    max-height: min(300px, 38svh);
+    max-height: min(250px, 32svh);
+    padding-inline: 18px;
+  }
+
+  .ai-assistant-suggestions,
+  .ai-assistant-form {
+    padding-inline: 18px;
+  }
+
+  .ai-message {
+    max-width: 92%;
+  }
+
+  .ai-message-actions a {
+    max-width: 100%;
   }
 
   .ai-assistant-launcher {
