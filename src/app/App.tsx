@@ -1,16 +1,68 @@
-import { useCallback, useEffect, useState } from "react";
-import { BackgroundEffects } from "../components/layout/BackgroundEffects";
-import { CommandPalette } from "../components/navigation/CommandPalette";
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router";
+import { RecruiterAssistant } from "../components/ai/RecruiterAssistant";
 import { Navbar } from "../components/navigation/Navbar";
 import type { Theme } from "../components/navigation/ThemeToggle";
-import { AboutSection, CapstoneSection, ContactSection, CredentialsSection, ExperienceSection, Footer, HeroSection, ProjectsSection, ResumeSection, SkillsSection } from "../components/sections/PortfolioSections";
-import { FeedbackSection } from "../components/sections/FeedbackSection";
+import { HomePage } from "../components/pages/HomePage";
+import { NotFoundPage } from "../components/pages/NotFoundPage";
+import { ProjectCaseStudyPage } from "../components/pages/ProjectCaseStudyPage";
+import { Footer } from "../components/sections/Footer";
 
-function Loader({ onDone }:{onDone:()=>void}){useEffect(()=>{const id=setTimeout(onDone,600);return()=>clearTimeout(id)},[onDone]);return <div className="loader" role="status"><span>DM<span>.</span></span><span className="sr-only">Loading portfolio</span></div>}
+function RouteFocusManager() {
+  const { pathname, hash } = useLocation();
 
-export default function App(){const[loading,setLoading]=useState(()=>{if(matchMedia("(prefers-reduced-motion: reduce)").matches)return false;return sessionStorage.getItem("portfolio-loaded")!=="true"});const[command,setCommand]=useState(false);const[theme,setTheme]=useState<Theme>(()=>{const saved=localStorage.getItem("portfolio-theme");return saved==="light"||saved==="dark"?saved:(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")});
-  const finish=useCallback(()=>{sessionStorage.setItem("portfolio-loaded","true");setLoading(false)},[]);
-  useEffect(()=>{const key=(e:KeyboardEvent)=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();setCommand(true)}};addEventListener("keydown",key);return()=>removeEventListener("keydown",key)},[]);
-  useEffect(()=>{document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;localStorage.setItem("portfolio-theme",theme);document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute("content",theme==="light"?"#F7F2EE":"#000000")},[theme]);
-  if(loading)return <Loader onDone={finish}/>;
-  return <div className="app"><a href="#main-content" className="skip-link">Skip to content</a><BackgroundEffects/><div className="scroll-progress" aria-hidden="true"/><Navbar onCommand={()=>setCommand(true)} theme={theme} onThemeToggle={()=>setTheme(current=>current==="dark"?"light":"dark")}/><CommandPalette open={command} onClose={()=>setCommand(false)}/><main id="main-content"><HeroSection/><ProjectsSection/><ExperienceSection/><AboutSection/><SkillsSection/><CapstoneSection/><CredentialsSection/><ResumeSection/><FeedbackSection/><ContactSection/></main><Footer/></div>}
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (hash) {
+        const target = document.getElementById(hash.slice(1));
+        if (target) {
+          target.scrollIntoView();
+          return;
+        }
+      }
+      window.scrollTo({ top: 0, left: 0 });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [hash, pathname]);
+
+  return null;
+}
+
+export default function App() {
+  const [theme, setTheme] = useState<Theme>(() => {
+    const savedTheme = localStorage.getItem("portfolio-theme");
+    return savedTheme === "light" || savedTheme === "dark" ? savedTheme : "dark";
+  });
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    localStorage.setItem("portfolio-theme", theme);
+    document
+      .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+      ?.setAttribute("content", theme === "light" ? "#f3f1ed" : "#070707");
+  }, [theme]);
+
+  return (
+    <div className="app">
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+      <RouteFocusManager />
+      <Navbar
+        theme={theme}
+        onThemeToggle={() =>
+          setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"))
+        }
+      />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/work/:slug" element={<ProjectCaseStudyPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+      <Footer />
+      <RecruiterAssistant />
+    </div>
+  );
+}

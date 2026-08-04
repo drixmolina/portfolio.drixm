@@ -26,7 +26,7 @@ export function ModalShell({ open, title, onClose, children }: ModalShellProps) 
   if (!open) return null;
   return <div className="modal-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
     <div ref={modalRef} className="modal-shell glass" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <header><h2 id="modal-title">{title}</h2><button type="button" className="icon-button" onClick={onClose} aria-label={`Close ${title}`}><X /></button></header>
+      <header><h2 id="modal-title">{title}</h2><button type="button" className="icon-button" onClick={onClose} aria-label={`Close ${title}`}><X aria-hidden="true" /></button></header>
       <div className="modal-body">{children}</div>
     </div>
   </div>;

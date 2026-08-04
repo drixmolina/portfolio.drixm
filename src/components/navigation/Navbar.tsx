@@ -1,18 +1,191 @@
-import { useEffect, useState } from "react";
-import { Menu, X, Search } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Menu, X } from "lucide-react";
+import { useLocation } from "react-router";
 import { navigation } from "../../data/portfolioData";
 import { ThemeToggle, type Theme } from "./ThemeToggle";
 
-interface NavbarProps { onCommand: () => void; theme: Theme; onThemeToggle: () => void }
-export function Navbar({ onCommand, theme, onThemeToggle }: NavbarProps) {
-  const [open,setOpen]=useState(false), [active,setActive]=useState("hero"), [visible,setVisible]=useState(true), [scrolled,setScrolled]=useState(false);
-  useEffect(()=>{ let last=scrollY; const onScroll=()=>{const now=scrollY;setVisible(now<80||now<last);setScrolled(now>24);last=now;}; addEventListener("scroll",onScroll,{passive:true});
-    const observer=new IntersectionObserver(entries=>entries.forEach(e=>e.isIntersecting&&setActive(e.target.id)),{rootMargin:"-25% 0px -65%"}); navigation.forEach(n=>{const el=document.getElementById(n.id);if(el)observer.observe(el)}); return()=>{removeEventListener("scroll",onScroll);observer.disconnect()};},[]);
-  const go=()=>setOpen(false);
-  return <header className={`navbar ${visible?"nav-visible":"nav-hidden"} ${scrolled?"is-scrolled":""}`}><nav aria-label="Main navigation" className="nav-inner">
-    <a href="#hero" className="brand" aria-label="Drix Molina portfolio home">DM<span>.</span></a>
-    <div className="desktop-nav">{navigation.map(n=><a key={n.id} href={`#${n.id}`} aria-current={active===n.id?"page":undefined}>{n.label}</a>)}</div>
-    <div className="nav-actions"><ThemeToggle theme={theme} onToggle={onThemeToggle}/><button type="button" className="icon-button" onClick={onCommand} aria-label="Open command palette"><Search/></button><button type="button" className="icon-button menu-button" onClick={()=>setOpen(!open)} aria-expanded={open} aria-controls="mobile-navigation" aria-label={open?"Close navigation menu":"Open navigation menu"}>{open?<X/>:<Menu/>}</button></div>
-    {open&&<div id="mobile-navigation" className="mobile-nav glass">{navigation.map(n=><a key={n.id} href={`#${n.id}`} onClick={go} aria-current={active===n.id?"page":undefined}>{n.label}</a>)}</div>}
-  </nav></header>;
+interface NavbarProps {
+  theme: Theme;
+  onThemeToggle: () => void;
+}
+
+export function Navbar({ theme, onThemeToggle }: NavbarProps) {
+  const { pathname } = useLocation();
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("hero");
+  const [visible, setVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const isHome = pathname === "/";
+  const sectionHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+
+  const closeMenu = useCallback((restoreFocus = true) => {
+    setOpen(false);
+    if (restoreFocus) {
+      requestAnimationFrame(() => triggerRef.current?.focus());
+    }
+  }, []);
+
+  useEffect(() => {
+    let previousScroll = window.scrollY;
+    const onScroll = () => {
+      const currentScroll = window.scrollY;
+      const focusInsideHeader = headerRef.current?.contains(document.activeElement);
+      setScrolled(currentScroll > 24);
+      setVisible(
+        open ||
+          Boolean(focusInsideHeader) ||
+          currentScroll < 96 ||
+          currentScroll < previousScroll,
+      );
+      previousScroll = currentScroll;
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries.find((entry) => entry.isIntersecting);
+        if (visibleEntry) setActive(visibleEntry.target.id);
+      },
+      { rootMargin: "-28% 0px -62%" },
+    );
+
+    if (isHome) {
+      navigation.forEach(({ id }) => {
+        const element = document.getElementById(id);
+        if (element) observer.observe(element);
+      });
+    }
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      observer.disconnect();
+    };
+  }, [isHome, open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    setVisible(true);
+    requestAnimationFrame(() =>
+      panelRef.current?.querySelector<HTMLAnchorElement>("a")?.focus(),
+    );
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMenu();
+        return;
+      }
+
+      if (event.key !== "Tab" || !panelRef.current) return;
+      const focusable = [
+        ...panelRef.current.querySelectorAll<HTMLElement>("a, button"),
+      ];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [closeMenu, open]);
+
+  const desktopLinks = navigation.filter(({ id }) => id !== "contact");
+
+  return (
+    <header
+      ref={headerRef}
+      className={`site-header ${visible ? "header-visible" : "header-hidden"} ${scrolled ? "header-scrolled" : ""}`}
+      onFocusCapture={() => setVisible(true)}
+    >
+      <nav aria-label="Main navigation" className="nav-container">
+        <a href="/" className="brand" aria-label="Drix Molina portfolio home">
+          Drix Molina<span aria-hidden="true">.</span>
+        </a>
+
+        <div className="desktop-nav">
+          {desktopLinks.map((item) => (
+            <a
+              key={item.id}
+              href={sectionHref(item.id)}
+              aria-current={isHome && active === item.id ? "location" : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+
+        <div className="nav-actions">
+          <ThemeToggle theme={theme} onToggle={onThemeToggle} />
+          <a
+            className="nav-contact"
+            href={sectionHref("contact")}
+            aria-current={isHome && active === "contact" ? "location" : undefined}
+          >
+            Contact
+          </a>
+          <button
+            ref={triggerRef}
+            type="button"
+            className="icon-button menu-button"
+            onClick={() => (open ? closeMenu() : setOpen(true))}
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+          >
+            {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+          </button>
+        </div>
+      </nav>
+
+      {open && (
+        <div
+          className="mobile-nav-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeMenu();
+          }}
+        >
+          <div
+            ref={panelRef}
+            id="mobile-navigation"
+            className="mobile-nav-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-navigation-label"
+          >
+            <p id="mobile-navigation-label" className="mobile-nav-label">
+              Navigate
+            </p>
+            {navigation.map((item) => (
+              <a
+                key={item.id}
+                href={sectionHref(item.id)}
+                onClick={() => closeMenu()}
+                aria-current={isHome && active === item.id ? "location" : undefined}
+              >
+                <span>{item.label}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </header>
+  );
 }

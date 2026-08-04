@@ -1,70 +1,481 @@
-export type Screenshot = { url: string; caption: string };
-export type Project = {
-  id: string; title: string; problem: string; role: string; solution: string;
-  features: string[]; technologies: string[]; outcome: string; image: string;
-  screenshots: Screenshot[]; github?: string; caseStudy?: string;
+export interface PortfolioProfile {
+  name: string;
+  professionalName: string;
+  role: string;
+  introduction: string;
+  email: string;
+  location: string;
+  availability: string;
+  portrait: string;
+  lightPortrait: string;
+  resumeUrl: string;
+  websiteUrl: string;
+  plannedDomain: string;
+  githubUrl: string;
+  linkedinUrl: string;
+  education: {
+    degree: string;
+    specialization: string;
+    school: string;
+    graduationYear: string;
+  };
+  currentEmployment: {
+    role: string;
+    organization: string;
+    startDate: string;
+    location: string;
+  };
+}
+
+export interface ProjectImage {
+  url: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+  sources?: {
+    avif?: string;
+    webp?: string;
+  };
+}
+
+export interface ProjectEvidence {
+  value: string;
+  label: string;
+}
+
+export interface PortfolioProject {
+  id: string;
+  slug: string;
+  title: string;
+  shortDescription: string;
+  context: string;
+  role: string;
+  challenge: string;
+  users: string[];
+  contributions: string[];
+  architecture: string[];
+  workflows: string[];
+  evidence: ProjectEvidence[];
+  technologies: string[];
+  result: string;
+  image: ProjectImage;
+  screenshots: ProjectImage[];
+  githubUrl?: string;
+  liveUrl?: string;
+  paperUrl?: string;
+  seo: {
+    title: string;
+    description: string;
+  };
+}
+
+export interface PortfolioExperience {
+  id: string;
+  role: string;
+  organization: string;
+  period: string;
+  description: string;
+  responsibilities: string[];
+}
+
+export interface PortfolioCredential {
+  id: string;
+  title: string;
+  issuer: string;
+  issueDate: string;
+  credentialUrl: string;
+}
+
+export interface PortfolioSkillGroup {
+  category: string;
+  skills: string[];
+}
+
+export const profile: PortfolioProfile = {
+  name: "Drix Paulo E. Molina",
+  professionalName: "Drix Molina",
+  role: "Full-Stack Developer",
+  introduction:
+    "I build React interfaces and dependable PHP/MySQL workflows for practical web and mobile systems, with testing, documentation, and accessible UI considered throughout.",
+  email: "drixmolina31@gmail.com",
+  location: "Caloocan, Metro Manila, Philippines",
+  availability: "Open to junior full-stack roles in the Philippines and remote teams",
+  portrait: "/profile/drix-portrait-new.png",
+  lightPortrait: "/profile/drix-portrait-light.png",
+  resumeUrl: "/resume/Drix_Molina_Resume.pdf",
+  websiteUrl: "https://webfolio-dm.vercel.app/",
+  plannedDomain: "drixmolina.com",
+  githubUrl: "https://github.com/drixmolina",
+  linkedinUrl: "https://www.linkedin.com/in/drix-molina-a1ba62321/",
+  education: {
+    degree: "Bachelor of Science in Information Technology",
+    specialization: "Web and Mobile Application Development",
+    school: "FEU Diliman",
+    graduationYear: "2026",
+  },
+  currentEmployment: {
+    role: "Web Developer",
+    organization: "Highly Succeed Inc.",
+    startDate: "December 2025",
+    location: "Mandaluyong City, Philippines",
+  },
 };
 
 export const navigation = [
-  { id: "hero", label: "Home" }, { id: "about", label: "About" },
-  { id: "experience", label: "Experience" }, { id: "projects", label: "Projects" },
-  { id: "credentials", label: "Credentials" }, { id: "contact", label: "Contact" },
+  { id: "hero", label: "Home" },
+  { id: "projects", label: "Work" },
+  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
+  { id: "credentials", label: "Credentials" },
+  { id: "contact", label: "Contact" },
 ] as const;
 
-export const roles = ["Full Stack Developer", "IT Support Specialist", "AI Automation Developer"];
+const highlySucceedImages: ProjectImage[] = [
+  ["employee-management", "Employee management dashboard", 1240, 549],
+  ["attendance-timekeeping", "Attendance and timekeeping records", 1240, 549],
+  ["leave-management", "Leave request and approval workflow", 1240, 549],
+  ["admin-panel", "Role-based administration panel", 1240, 549],
+  ["employee-cards", "Employee cards and search filters", 1240, 549],
+  ["login", "Role-based login screen", 1240, 549],
+].map(([file, caption, width, height]) => ({
+  url: `/projects/highly-succeed/safe/${file}.webp`,
+  sources: {
+    avif: `/projects/highly-succeed/safe/${file}.avif`,
+    webp: `/projects/highly-succeed/safe/${file}.webp`,
+  },
+  alt: `${caption} from the Highly Succeed employee management system`,
+  caption: `${caption}. Demo identities and credentials are intentionally obscured.`,
+  width: Number(width),
+  height: Number(height),
+}));
 
-export const projects: Project[] = [
+const faciliteaseImages: ProjectImage[] = [
+  ["web-dashboard.jpeg", "Facilities dashboard and reservation overview", 532, 298],
+  ["web-master-records.jpeg", "Reservation and master records", 637, 310],
+  ["web-login.jpeg", "FacilitEASE web login", 540, 250],
+  ["mobile-dashboard.jpeg", "Mobile dashboard and venue usage summary", 255, 461],
+  ["mobile-reservation-request.jpeg", "Mobile reservation request", 252, 414],
+  ["mobile-service-request.jpeg", "Mobile service request", 225, 526],
+  ["mobile-login.jpeg", "FacilitEASE mobile login", 196, 455],
+].map(([file, caption, width, height]) => ({
+  url: `/projects/facilitease-extra/${file}`,
+  alt: `${caption} in the FacilitEASE system`,
+  caption: String(caption),
+  width: Number(width),
+  height: Number(height),
+}));
+
+const deadkidsImages: ProjectImage[] = [
+  ["hero", "DDKDS storefront hero", 1240, 560],
+  ["selected-pieces", "Selected Pieces editorial product study", 1240, 1365],
+  ["shop", "Shop DDKDS collection availability section", 1240, 515],
+  ["around-the-world", "DEADKIDS Around the World campaign journal", 1240, 1390],
+  ["worn-beyond-borders", "Worn beyond borders editorial story", 1240, 1320],
+  ["brand-manifesto", "Made to move, built to remain brand manifesto", 1240, 460],
+  ["next-release", "Next collection release preview", 1240, 480],
+  ["reviews", "Customer reviews and moderated review form", 1240, 1190],
+  ["contact", "Contact form and storefront footer", 1240, 990],
+].map(([file, caption, width, height]) => ({
+  url: `/projects/deadkids/${file}.webp`,
+  sources: {
+    avif: `/projects/deadkids/${file}.avif`,
+    webp: `/projects/deadkids/${file}.webp`,
+  },
+  alt: `${caption} from the DEADKIDS e-commerce website`,
+  caption: String(caption),
+  width: Number(width),
+  height: Number(height),
+}));
+
+export const projects: PortfolioProject[] = [
   {
-    id: "highly-succeed", title: "Highly Succeed Enterprise Employee Management System",
-    problem: "The company needed a centralized internal platform for employee records, attendance, leave management, onboarding, inventory, payroll-related records, reports, QR identification, and administrative access.",
-    role: "Web Developer / Frontend Developer",
-    solution: "A responsive React-based employee and inventory management system with reusable components and role-based workflows.",
-    features: ["Employee records", "Attendance and timekeeping", "Leave approval", "Onboarding", "Inventory", "Payroll-related records", "QR ID workflows", "Reports", "Role-based administration"],
-    technologies: ["React", "JavaScript", "Enterprise System", "HRIS", "Role-based access"],
-    outcome: "A unified interface for the company’s core employee, inventory, reporting, and administration workflows.",
-    image: "/projects/highly-succeed/login.jpeg", github: "https://github.com/drixmolina/Highlysucceed",
-    screenshots: [
-      ["login.jpeg", "Login screen with role credentials"], ["employee-management.jpeg", "Employee management dashboard"],
-      ["attendance-timekeeping.jpeg", "Attendance and timekeeping records"], ["leave-management.jpeg", "Leave approval workflow"],
-      ["admin-panel.jpeg", "Role-based administration panel"], ["employee-cards.jpeg", "Employee cards and filters"],
-    ].map(([file, caption]) => ({ url: `/projects/highly-succeed/${file}`, caption })),
+    id: "highly-succeed",
+    slug: "highly-succeed",
+    title: "Highly Succeed Employee & Inventory Management System",
+    shortDescription:
+      "A responsive React interface connecting employee, attendance, leave, onboarding, inventory, reporting, and administration workflows.",
+    context: "Company system at Highly Succeed Inc.",
+    role: "Web Developer",
+    challenge:
+      "Employee operations span many connected records and approvals. The interface needed to make those workflows easier to navigate across roles and screen sizes without hiding important status information.",
+    users: [
+      "System administrators",
+      "HR managers",
+      "Department heads",
+      "Employees",
+    ],
+    contributions: [
+      "Built responsive React interfaces and reusable workflow patterns.",
+      "Developed employee record, onboarding, search, and status experiences.",
+      "Implemented attendance, timekeeping, and leave approval views.",
+      "Refined inventory, reporting, and role-based administration interfaces.",
+    ],
+    architecture: [
+      "React and TypeScript single-page interface",
+      "Role-aware navigation across twelve operational modules",
+      "Reusable patterns for tables, forms, dashboards, and status feedback",
+      "Public repository uses demonstration data; production services are not exposed",
+    ],
+    workflows: [
+      "Authentication and role-aware access",
+      "Employee records and onboarding",
+      "Attendance and timekeeping",
+      "Leave requests and approval",
+      "Inventory and supplier records",
+      "Reports and administration",
+    ],
+    evidence: [
+      { value: "12", label: "Coordinated modules" },
+      { value: "4", label: "Role views" },
+      { value: "6", label: "Documented workflows" },
+      { value: "Public", label: "Reviewable source" },
+    ],
+    technologies: ["React", "TypeScript", "JavaScript", "HTML", "CSS"],
+    result:
+      "A reviewable, responsive system prototype that demonstrates how complex employee and resource workflows can share a coherent interface.",
+    image: highlySucceedImages[0],
+    screenshots: highlySucceedImages,
+    githubUrl: "https://github.com/drixmolina/Highlysucceed",
+    seo: {
+      title: "Highly Succeed System Case Study | Drix Molina",
+      description:
+        "A React employee and inventory management system case study by Drix Molina, covering role-aware workflows, responsive UI, and reusable components.",
+    },
   },
   {
-    id: "facilitease", title: "FacilitEASE",
-    problem: "The FEU Diliman Facilities Office needed a centralized system for reservations, job requests, inventory, maintenance, property records, and notifications.",
+    id: "facilitease",
+    slug: "facilitease",
+    title: "FacilitEASE",
+    shortDescription:
+      "A web and mobile property management system for reservations, job orders, inventory, maintenance, personnel dispatch, and notifications.",
+    context: "Academic capstone for the FEU Diliman Facilities Office",
     role: "Capstone Developer, Documentation Contributor, and System Tester",
-    solution: "A web and mobile property management and reservation system.",
-    features: ["Venue and equipment reservations", "Job order requests", "Service requests", "Inventory records", "Property maintenance", "Personnel dispatch", "Notifications", "Reservation calendar", "Web and mobile applications"],
-    technologies: ["Kotlin", "PHP", "JavaScript", "Web application", "Mobile application"],
-    outcome: "A completed capstone system that centralizes facilities workflows across web and mobile applications.",
-    image: "/projects/facilitease-thumbnail.png", caseStudy: "#facilitease-case-study",
-    screenshots: [
-      ["web-login.jpeg", "FacilitEASE web login"], ["web-dashboard.jpeg", "Facilities web dashboard"], ["web-master-records.jpeg", "Reservation and master records"],
-      ["mobile-login.jpeg", "FacilitEASE mobile login"], ["mobile-dashboard.jpeg", "Mobile dashboard"],
-      ["mobile-reservation-request.jpeg", "Mobile reservation request"], ["mobile-service-request.jpeg", "Mobile service request"],
-    ].map(([file, caption]) => ({ url: `/projects/facilitease-extra/${file}`, caption })),
+    challenge:
+      "Fragmented, paper-based processes limited real-time visibility, slowed communication, increased double-booking risk, and made pending service work difficult to track.",
+    users: [
+      "Facilities Office administrators",
+      "Approvers",
+      "Facilities personnel",
+      "Requestors",
+    ],
+    contributions: [
+      "Mapped manual facilities processes into coordinated web and mobile workflows.",
+      "Supported interface design, diagrams, documentation, and research revisions.",
+      "Tested reservation, job order, service request, dispatch, and inventory flows.",
+      "Prepared presentation materials and supported the capstone exhibit.",
+    ],
+    architecture: [
+      "Web and mobile interfaces serving four role groups",
+      "PHP and MySQL services developed through XAMPP",
+      "Kotlin and Expo Go used during mobile development and testing",
+      "Role-based status, notification, reservation, and dispatch workflows",
+    ],
+    workflows: [
+      "Venue and equipment reservations",
+      "Job orders and service reports",
+      "Inventory and property records",
+      "Property maintenance",
+      "Priority-based personnel dispatch",
+      "Notifications and status updates",
+      "Reservation calendar",
+    ],
+    evidence: [
+      { value: "7", label: "Connected modules" },
+      { value: "4", label: "Role groups" },
+      { value: "Alpha + Beta", label: "Documented testing" },
+      { value: "2", label: "Project awards" },
+    ],
+    technologies: ["PHP", "MySQL", "Kotlin", "JavaScript", "XAMPP", "Expo Go"],
+    result:
+      "The completed capstone centralized facilities workflows across web and mobile applications and received Best in Website and Best in Trailer recognition.",
+    image: {
+      url: "/projects/facilitease-thumbnail.png",
+      sources: {
+        avif:
+          "/projects/facilitease-thumbnail-960.avif 960w, /projects/facilitease-thumbnail-1600.avif 1600w",
+        webp:
+          "/projects/facilitease-thumbnail-960.webp 960w, /projects/facilitease-thumbnail-1600.webp 1600w",
+      },
+      alt: "FacilitEASE web and mobile application presentation",
+      caption: "FacilitEASE web and mobile property management system",
+      width: 2048,
+      height: 1152,
+    },
+    screenshots: faciliteaseImages,
+    paperUrl: "/projects/facilitease-paper.pdf",
+    seo: {
+      title: "FacilitEASE Property Management Case Study | Drix Molina",
+      description:
+        "FacilitEASE is a validated web and mobile property management capstone connecting reservations, job orders, inventory, maintenance, and notifications.",
+    },
+  },
+  {
+    id: "deadkids",
+    slug: "deadkids",
+    title: "DEADKIDS E-Commerce Website",
+    shortDescription:
+      "An editorial streetwear storefront connecting product discovery, customer interaction, reviews, and admin-managed content in one full-stack prototype.",
+    context: "Independent e-commerce website for DDKDS CLO.",
+    role: "Full-Stack Developer",
+    challenge:
+      "The website needed to preserve a strong editorial streetwear identity while supporting practical shopping and content workflows without making either the customer experience or store administration feel generic.",
+    users: [
+      "Streetwear shoppers",
+      "Returning customers",
+      "Store administrators",
+      "Content managers",
+    ],
+    contributions: [
+      "Designed and built a responsive editorial storefront from the hero through product, campaign, review, and contact sections.",
+      "Developed product discovery, filtering, wishlist, cart, checkout, and order-tracking experiences.",
+      "Separated the customer site from a protected admin portal for products, banners, reviews, messages, media, and website content.",
+      "Connected the React interface to Express services for authentication, content, orders, reviews, and file uploads.",
+    ],
+    architecture: [
+      "React and Vite single-page customer and admin interfaces",
+      "Node.js and Express REST API",
+      "JSON file data store for the prototype",
+      "JWT-protected admin routes, bcrypt password hashing, and Multer media uploads",
+    ],
+    workflows: [
+      "Browse and filter the product collection",
+      "Review product details and manage a wishlist",
+      "Add items to cart and record checkout choices",
+      "Track order status",
+      "Explore campaign and collection stories",
+      "Submit and moderate customer reviews",
+      "Manage products, media, and website content",
+    ],
+    evidence: [
+      { value: "2", label: "Connected experiences" },
+      { value: "7", label: "Documented workflows" },
+      { value: "JWT", label: "Protected admin access" },
+      { value: "9", label: "Verified interface sections" },
+    ],
+    technologies: ["React", "Vite", "Node.js", "Express", "JWT", "JSON"],
+    result:
+      "A complete e-commerce prototype that pairs an editorial brand experience with functional customer and admin workflows. Live payment processing and production cloud storage remain future hardening work.",
+    image: deadkidsImages[0],
+    screenshots: deadkidsImages,
+    liveUrl: "https://ddkds-clo-store.vercel.app/",
+    githubUrl: "https://github.com/drixmolina/deadkids",
+    seo: {
+      title: "DEADKIDS E-Commerce Website Case Study | Drix Molina",
+      description:
+        "A full-stack React and Express streetwear e-commerce case study by Drix Molina, covering editorial product discovery, customer workflows, and protected administration.",
+    },
   },
 ];
 
-export const experience = [
-  { role: "Web Development Junior Intern", company: "Highly Succeed Inc.", period: "2024", description: "Developed responsive web pages and reusable UI components, collaborated with cross-functional teams, debugged features, and improved the end-user experience.", skills: ["React", "JavaScript", "HTML", "CSS"] },
-  { role: "Junior Associate", company: "Assemblage of Programmers and Developers", period: "2023–2026", description: "Contributed to programming initiatives, collaborative projects, IT Week activities, and knowledge sharing within a developer community.", skills: ["Collaboration", "Development", "Community"] },
+export const projectBySlug = new Map(
+  projects.map((project) => [project.slug, project]),
+);
+
+export const experience: PortfolioExperience[] = [
+  {
+    id: "highly-succeed-web-developer",
+    role: "Web Developer",
+    organization: "Highly Succeed Inc.",
+    period: "December 2025 - Present",
+    description:
+      "Develop and maintain responsive, user-focused interfaces for an employee and inventory management system.",
+    responsibilities: [
+      "Build reusable React components and responsive operational screens.",
+      "Translate requirements into employee, attendance, leave, and inventory workflows.",
+      "Debug interface issues and improve accessibility and cross-browser behavior.",
+      "Use Git-based delivery and deployment workflows to ship updates.",
+    ],
+  },
+  {
+    id: "apd-junior-associate",
+    role: "Junior Associate",
+    organization: "Assemblage of Programmers and Developers",
+    period: "2023 - 2026",
+    description:
+      "Participated in a student developer community focused on technical collaboration and knowledge sharing.",
+    responsibilities: [
+      "Contributed to programming initiatives and collaborative activities.",
+      "Supported IT Week and organization events.",
+      "Shared development knowledge within the community.",
+    ],
+  },
 ];
 
-export const skillGroups = [
-  ["Frontend", ["HTML5", "CSS3", "JavaScript", "React", "TypeScript"]], ["Backend", ["Node.js", "Express", "PHP"]],
-  ["Database", ["MySQL", "MongoDB", "Firebase"]], ["Tools", ["Git", "GitHub", "VS Code", "Figma"]],
-  ["IT & Networking", ["Cisco", "Network Security", "Device Configuration"]], ["Automation", ["AI Automation", "Prompt Engineering"]],
-] as const;
+export const skillGroups: PortfolioSkillGroup[] = [
+  {
+    category: "Frontend",
+    skills: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React"],
+  },
+  {
+    category: "Backend & Data",
+    skills: ["PHP", "MySQL", "XAMPP", "REST workflows"],
+  },
+  {
+    category: "Mobile & Quality",
+    skills: ["Kotlin", "Expo Go", "System Testing", "Responsive Design"],
+  },
+  {
+    category: "Workflow & Delivery",
+    skills: ["Git", "GitHub", "Vercel", "Figma", "Technical Documentation"],
+  },
+];
 
-export const credentials = [
-  { title: "HTML & CSS", href: "/certifications/HTML & CSS.pdf" }, { title: "Python", href: "/certifications/Python.pdf" },
-  { title: "Networking", href: "/certifications/Networking.pdf" }, { title: "Network Security", href: "/certifications/Network Security.pdf" },
-  { title: "Device Configuration", href: "/certifications/device confi.pdf" },
+export const credentials: PortfolioCredential[] = [
+  {
+    id: "html-css",
+    title: "IT Specialist - HTML and CSS",
+    issuer: "Certiport / Pearson VUE",
+    issueDate: "December 2024",
+    credentialUrl: "/certifications/HTML & CSS.pdf",
+  },
+  {
+    id: "python",
+    title: "IT Specialist - Python",
+    issuer: "Certiport / Pearson VUE",
+    issueDate: "January 2025",
+    credentialUrl: "/certifications/Python.pdf",
+  },
+  {
+    id: "networking",
+    title: "IT Specialist - Networking",
+    issuer: "Cisco / Certiport",
+    issueDate: "July 2024",
+    credentialUrl: "/certifications/Networking.pdf",
+  },
+  {
+    id: "network-security",
+    title: "IT Specialist - Network Security",
+    issuer: "Cisco / Certiport",
+    issueDate: "July 2025",
+    credentialUrl: "/certifications/Network Security.pdf",
+  },
+  {
+    id: "device-configuration",
+    title: "IT Specialist - Device Configuration and Management",
+    issuer: "Cisco / Certiport",
+    issueDate: "December 2025",
+    credentialUrl: "/certifications/device confi.pdf",
+  },
 ];
 
 export const socialLinks = [
-  { label: "GitHub profile", href: "https://github.com/drixmolina", kind: "github" },
-  { label: "LinkedIn profile", href: "https://www.linkedin.com/in/drix-molina-a1ba62321/", kind: "linkedin" },
-  { label: "Email Drix Molina", href: "mailto:drixmolina31@gmail.com", kind: "email" },
+  {
+    label: "GitHub",
+    accessibleLabel: "Drix Molina on GitHub",
+    href: profile.githubUrl,
+    kind: "github",
+  },
+  {
+    label: "LinkedIn",
+    accessibleLabel: "Drix Molina on LinkedIn",
+    href: profile.linkedinUrl,
+    kind: "linkedin",
+  },
+  {
+    label: "Email",
+    accessibleLabel: "Email Drix Molina",
+    href: `mailto:${profile.email}`,
+    kind: "email",
+  },
 ] as const;
